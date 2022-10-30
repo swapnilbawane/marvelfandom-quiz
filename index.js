@@ -1,158 +1,201 @@
 // Marvel Fan Quiz 
 
 var readlineSync = require("readline-sync");
+const chalk = require('chalk');
+const boldRed = chalk.bold.red;
+const yellowBold = chalk.yellowBright.bold;
+const boldGreen = chalk.bold.green;
+const green = chalk.green;
+const bgWhite = chalk.bgWhite;
+const greenBright = chalk.greenBright;
+const yellowBright = chalk.yellowBright;
+
 var score = 0;
-var checkFlag = 0; 
+var checkFlag = 0;
 let userName;
 
+var questionOne = {
+  question: "1. When was the first Iron man movie was released?",
+  options: ["2000", "1987", "2016", "2008"],
+  answer: "4"
+};
+
+var questionTwo = {
+  question: "2) How many  Captain America movies are released?",
+  options: ["4", "3", "0", "1"],
+  answer: "2"
+};
+
+var questionThree = {
+  question: "3) Which year was Black Panther released?",
+  options: ["2005", "2018", "2016", "2010"],
+  answer: "2"
+};
+
+var questionFour = {
+  question: "4) Name of Black Panther actor?",
+  options: ["Chadwick Boseman", "Chris Evans", "Leanardo Di Caprio", "Tom Cruise"],
+  answer: "1"
+};
+
+var questionFive = {
+  question: "5) How many Iron Man movies released?",
+  options: ["2", "3", "1", "0"],
+  answer: "2"
+};
+
+var questionSix = {
+  question: "6) What is the name of the last Avengers Movies released?",
+  options: ["Avengers", "Avenger's End Game", "Avenger's Ultron", "Avenger's Life or Death"],
+  answer: "2"
+};
+
  
-// array of objects
-var questionsDatabase =
-  [
-    {
-      question: "1. When was the first Iron man movie was released? -- (1). 2000 -- (2). 1987 -- (3).2016 -- (4).2008?-->",
-      answer: "4"
-    },
+// creating array of all question objects
+var questionsDatabase = [questionOne, questionTwo, questionThree, questionFour, questionFive,questionSix];
 
+function breakLine() {
+  console.log("-------------");
+}
 
-    {
-      question: "2. How many  Captain America movies are released? -- (1). 4 -- (2). 3 -- (3).0 -- (4).1?-->",
-      answer: "2"
-    },
+function emptyLine() {
+  console.log("");
+}
 
-    {
-      question: "3. Which year was Black Panther released? -- (1). 2005 -- (2). 2018 -- (3).2016 -- (4).2010?-->",
-      answer: "2"
-    },
+function rules() {
+  console.log(chalk.magenta("-----GUIDELINES FOR QUIZ--------"));
+  emptyLine();
+  console.log("There are 6 questions in here. Each question will have four options.");
+  emptyLine();
+  console.log("Enter 1,2,3 or 4 as the correct answer and press enter. Enjoy the game.");
+  emptyLine();
+  console.log("Press q or Q to quit at any question.");
 
-    {
-      question: "4. Name of Black Panther actor? -- (1). Chadwick Boseman -- (2). Chris Evans -- (3).Leanardo Di Caprio -- (4).Tom Cruise?-->",
-      answer: "1"
-    },
+  emptyLine();
 
-    {
-      question: "5. How many Iron Man movies released? -- (1). 2 -- (2). 3 -- (3).1 -- (4).0?-->",
-      answer: "2"
-    },
-
-    {
-      question: "6. What is the name of the last Avengers Movies released? -- (1). Avengers -- (2). Avenger's End Game -- (3).Avenger's Ultron -- (4).Avenger's Life or Death?-->",
-      answer: "2"
-    },
-  ];
+  console.log(chalk.magenta("-----LET'S BEGIN--------"));
+}
 
 // function welcome 
-function welcome() 
-{
+function welcome() {
   console.log("Are you a Marvel fan? - Let's find out in this Marvel Quiz");
-  userName = readlineSync.question("What's your name? ");
-  console.log("-------------");
-  console.log("Welcome " + userName + " to the Marvel Quiz!");
-  console.log("");
-  console.log("-----GUIDELINES FOR QUIZ--------");
-  console.log("There are 6 questions in here. Each question will have four options.");
-  console.log("Enter 1,2,3 or 4 as the correct answer and press enter. Enjoy the game.");
-  console.log("Press Enter key to begin or enter Q to quit at any question.");
-  console.log("");
-  console.log("-----LET'S BEGIN..--------");
-  console.log("");
+  userName = readlineSync.question(chalk.red("What's your name? "));
+
+  breakLine();
+
+  console.log("Welcome " + chalk.bgWhite(userName) + " to the Marvel Quiz!");
+
+  emptyLine();
+  rules();
+  emptyLine();
+
 }
 
-// quiz function
-function quiz(questionAsked, answerStored) 
-{
-  //input
-  var userAnswer = readlineSync.question(questionAsked);
-  // processing
-  if (userAnswer == "Q" | userAnswer == "q" ) 
-        { 
-         return 1;
-         }
-  
-  else 
-    
-  if (userAnswer == answerStored ) 
-  { 
-    console.log("");
-    console.log("Your answer is correct.");
-    console.log("");
-    console.log("----Next question----");
-    score = score + 1;
-    return 0;
-    
-  } 
-  
-  else 
-  
-  {
-    console.log("Your answer is wrong.");
-    console.log("");
-    console.log("----Next question----");
-    return 0;
-   
+// // quiz function
+function quiz(questionAsked, options, answerStored) {
+
+  emptyLine();
+
+  console.log(boldGreen(questionAsked));
+
+  for (var i = 0; i < 4; i++) {
+    console.log(chalk.cyan.bold(i + 1 + ") " + options[i]));
   }
 
-  
-}
+  var userAnswer = readlineSync.question(green("Enter your answer: "));
 
+  if (userAnswer == "Q" | userAnswer == "q") {
+    return 1;
+  }
 
+  else
 
-// game function  
-function game() 
-{
-  for (var i = 0; i < questionsDatabase.length; i++) 
-  {
-    var currentQuestion = questionsDatabase[i];
-    checkFlag=quiz(currentQuestion.question, currentQuestion.answer);
-    console.log("");
-    if (checkFlag==1) 
-    { 
-      console.log("");
+    if (userAnswer == answerStored) {
+      emptyLine();
+      console.log(yellowBold("Your answer is correct."));
+      emptyLine();
+      // console.log("----Next question----");
+      score = score + 1;
+      return 0;
 
-      if(score>0)
-      { console.log("YAY! "+userName+ " You SCORED: ", score); }
-      else 
-      { console.log("You did not answer any questions.") }
-      console.log("");
-      console.log("You have exited the game");
-      
-      break;    
     }
-  }
 
+    else {
+      emptyLine();
+      console.log(yellowBold("Your answer is wrong."));
+      emptyLine();
+      // console.log("----Next question----");
+      return 0;
+
+    }
+
+
+}
+
+
+// processing
+
+//game function  
+function game() {
+  for (var i = 0; i < questionsDatabase.length; i++) {
+    var currentQuestion = questionsDatabase[i];
+    checkFlag = quiz(currentQuestion.question, currentQuestion.options, currentQuestion.answer);
+    console.log("");
+    if (checkFlag == 1) {
+      emptyLine();
+
+      if (score > 0) {
+        console.log(boldRed("You have exited the game midway."));
+        console.log("Hello " + userName + " You SCORED: ", score);
+      }
+      else {
+        emptyLine();
+        console.log(chalk.red.bold("You have exited the game without answering any questions."));
+        break;
+      }
+    }
+
+  }
 }
 
 // checkScores function 
-function checkScores() {
-  if (score < questionsDatabase.length) {
-    console.log("");
-    console.log("Out of "+questionsDatabase.length+" questions, you answered " + score + " questions correctly.");
-  }
+function checkScores(checkFlag) {
+  if (checkFlag == 1) { }
+  else
+    if (score < questionsDatabase.length) {
+      emptyLine();
+      console.log(boldRed("Out of " + questionsDatabase.length + " questions, you answered " + score + " questions correctly."));
+    }
 
-  else {
-    console.log("Congratulations. You completed the game. Your total score is " + score);
-  }
+    else {
+      console.log(boldRed("Congratulations. You completed the game. Your total score is " + score));
+    }
 
 }
 
 
 //  function showresults
-function showResults() 
-  {
-    console.log("");
-    console.log("And now let's look at all answers."); 
-    console.log("1. When was the first Iron man movie was released? Answer: 2008");
-    console.log("2. How many Captain America movies are released? Answer: 3");
-    console.log("3. Which year was Black Panther released? Answer: 2018");
-    console.log("4. Name of Black Panther actor? Answer: Chadwick Boseman");
-    console.log("5. How many Iron Man movies released? Answer: 3");
-    console.log("6. What is the name of the last Avengers Movies released? Answer: Avenger's End Game");
-    
-  }
+function showResults() {
+  emptyLine();
+  console.log(bgWhite("And now let's look at all answers."));
+
+  console.log(greenBright("1. When was the first Iron man movie was released? Answer: 2008"));
+
+  console.log(yellowBright("2. How many Captain America movies are released? Answer: 3"));
+
+  console.log(greenBright("3. Which year was Black Panther released? Answer: 2018"));
+
+  console.log(yellowBright("4. Name of Black Panther actor? Answer: Chadwick Boseman"));
+
+  console.log(greenBright("5. How many Iron Man movies released? Answer: 3"));
+
+  console.log(yellowBright("6. What is the name of the last Avengers Movies released? Answer: Avenger's End Game"));
+
+}
 
 // running the functions 
 
 welcome();
 game();
-checkScores();
+checkScores(checkFlag);
 showResults();
