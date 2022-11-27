@@ -1,7 +1,9 @@
 # "Marvel Fandom” quiz
 
-This project is a CLI app made with NodeJs. 
+## Tech Stack: 
+A CLI app made with Javascript in Repl.it IDE.
 
+## About Project: 
 This project was made as part of Level Zero of [Neogcamp](www.neog.camp).
 
 Marvel Fandom quiz consists of 6 questions about Marvel and 4 options are given to answer the question. 
